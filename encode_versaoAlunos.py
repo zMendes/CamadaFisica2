@@ -5,43 +5,45 @@ from suaBibSignal import*
 import numpy as np
 import sounddevice as sd
 import matplotlib.pyplot as plt
+import keyboard
 import sys
 
 
-def pickNumber():
-    number = input("Escolha o número que você deseja enviar:")
+def pickNumber(number):
+
     if number =="0":
-        return 941, 1336, number
+        return 941, 1336
     elif number =="1":
-        return 697, 1209, number
+        return 697, 1209
     elif number =="2":
-        return 697, 1336, number
+        return 697, 1336
     elif number =="3":
-        return 697, 1477, number
+        return 697, 1477
     elif number =="4":
-        return 770, 1209, number
+        return 770, 1209
     elif number =="5":
-        return 770, 1336, number
+        return 770, 1336
     elif number =="6":
-        return 770, 1477, number
+        return 770, 1477
     elif number =="7":
-        return 852, 1209, number
+        return 852, 1209
     elif number =="8":
-        return 852, 1336, number
+        return 852, 1336
     elif number =="9":
-        return 852, 1477, number
+        return 852, 1477
     elif number =="a":
-        return 697, 1663, number
+        return 697, 1663
     elif number =="b":
-        return 770, 1663, number
+        return 770, 1663
     elif number =="c":
-        return 852, 1663, number
+        return 852, 1663
     elif number =="d":
-        return 941, 1663, number
+        return 941, 1663
     elif number =="x":
-        return 941, 1209, number
+        return 941, 1209
     elif number =="#":
-        return 941, 14770, number
+        return 941, 14770
+    else: return 0,0
         
 
 def signal_handler(signal, frame):
@@ -54,20 +56,29 @@ def todB(s):
     return(sdB)
 
 def main():
-    print("Inicializando encoder")
+    print("Esperando tecla ser pressionada:")
+    key = False
     signal = signalMeu() 
     tone = []
-    gainX  = 0.1
-    gainY  = 0.1
-    time = 1
+    gainX  = 0.2
+    gainY  = 0.2
+    time = 5
     fs = 44100
-    f1, f2 ,input = pickNumber()
+    
+
+    key = keyboard.read_key()
+
+
+    input = key
+    f1, f2 = pickNumber(key)
+    print(f1,f2)
+    
+        
     #declare um objeto da classe da sua biblioteca de apoio (cedida)    
     #declare uma variavel com a frequencia de amostragem, sendo 44100
     
     #voce importou a bilioteca sounddevice como, por exemplo, sd. entao
     # os seguintes parametros devem ser setados:
-
     
     x1,sen1 = signal.generateSin(f1,gainX,time,fs)
     x2,sen2 = signal.generateSin(f2,gainX,time,fs)
@@ -75,33 +86,18 @@ def main():
 
     for i in range(len(sen1)):
         tone.append(sen1[i]+sen2[i]) 
+    #plt.plot(x1[0:100], sen1[0:100])
+    #plt.show()
 
       
-#relativo ao volume. Um ganho alto pode saturar sua placa... comece com .3    
     
 
-
-    print("Gerando Tons base")
-    
-    #gere duas senoides para cada frequencia da tabela DTMF ! Canal x e canal y 
-    #use para isso sua biblioteca (cedida)
-    #obtenha o vetor tempo tb.
-    #deixe tudo como array
-
-    #printe a mensagem para o usuario teclar um numero de 0 a 9. 
-    #nao aceite outro valor de entrada.
     print("Gerando Tom referente ao símbolo : {}".format(input))
     
-    
-    #construa o sunal a ser reproduzido. nao se esqueca de que é a soma das senoides
-    
-    #printe o grafico no tempo do sinal a ser reproduzido
-    # reproduz o som
-    print("Rodará o play")
+    #plt.plot(x1, sen1)
+    #plt.plot(x2, sen2)
+    #plt.show()
     sd.play(tone, fs)
-    # Exibe gráficos
-    plt.show()
-    # aguarda fim do audio
     sd.wait()
 
 while (True):
