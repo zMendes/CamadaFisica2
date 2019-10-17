@@ -32,13 +32,13 @@ def pickNumber(number):
     elif number =="9":
         return 852, 1477
     elif number =="a":
-        return 697, 1663
+        return 697, 1636
     elif number =="b":
-        return 770, 1663
+        return 770, 1636
     elif number =="c":
-        return 852, 1663
+        return 852, 1636
     elif number =="d":
-        return 941, 1663
+        return 941, 1636
     elif number =="x":
         return 941, 1209
     elif number =="#":
@@ -60,9 +60,9 @@ def main():
     key = False
     signal = signalMeu() 
     tone = []
-    gainX  = 0.2
-    gainY  = 0.2
-    time = 5
+    gainX  = 0.3
+    gainY  = 0.3
+    time = 3
     fs = 44100
     
 
@@ -81,14 +81,13 @@ def main():
     # os seguintes parametros devem ser setados:
     
     x1,sen1 = signal.generateSin(f1,gainX,time,fs)
-    x2,sen2 = signal.generateSin(f2,gainX,time,fs)
+    x2,sen2 = signal.generateSin(f2,gainY,time,fs)
     
 
     for i in range(len(sen1)):
         tone.append(sen1[i]+sen2[i]) 
     #plt.plot(x1[0:100], sen1[0:100])
-    #plt.show()
-
+    #plt.show()]
       
     
 
