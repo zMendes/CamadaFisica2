@@ -68,28 +68,30 @@ def main():
     #voce deve tambem evitar que dois picos proximos sejam identificados, pois pequenas variacoes na
     #frequencia do sinal podem gerar mais de um pico, e na verdade tempos apenas 1.
     
-    index = peakutils.indexes(yf,0.3,100)
+    index = peakutils.indexes(yf,0.3,10)
     print(index)
+    if (len(index))>1:
+        f1 = xf[index[0]]
+        f2 = xf[index[1]]
+        print(f1,f2)
     
-    f1 = xf[index[0]]
-    f2 = xf[index[1]]
-    n = 0
-
-    print(f1,f2)
+    
+    plt.show()
     line = [697, 770, 852, 941]
     col = [1209, 1336, 1477, 1633]
 
-
-    for i in line:
-        if (math.isclose(i, f1, abs_tol = 10)):
+    peak1, peak2 = 0,0
+    for i in line or i in col:
+        if (math.isclose(i, f1, abs_tol = 40)):
             peak1 = i 
-    for z in col:
-        if (math.isclose(z, f2, abs_tol = 10)):
+    for z in col or i in col:
+        if (math.isclose(z, f2, abs_tol = 40)):
             peak2 = z
     
+    
     matriz =[['1', '2', '3', 'A'], ['4', '5', '6', 'B'], ['7', '8', '9', 'C'], ['X', '0', '#', 'D']]
-
-
+    print("peak1", peak1)
+    print("peak2", peak2)
     l = line.index(peak1)
     c = col.index(peak2)
     tecla = matriz[l][c]
